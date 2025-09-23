@@ -23,12 +23,12 @@ app.get("/", async (req, res) => {
     const posicao = index + 1;
     const pontuacaoAtual = rank[index].a;
 
-    let mensagem = `${streamer} está na posição ${posicao} com ${pontuacaoAtual} pontos.`;
+    let mensagem = `Rank Future Legends S3 ${streamer}: está na posição 🏆${posicao} com 💥${pontuacaoAtual} pontos.`;
 
     if (index > 0) {
       const pontuacaoProximo = rank[index - 1].a;
       const faltando = pontuacaoProximo - pontuacaoAtual;
-      mensagem += ` Faltam ${faltando.toFixed(2)} pontos para alcançar a posição ${posicao - 1}.`;
+      mensagem += ` Faltam ${faltando.toFixed(2)} pontos para alcançar a próxima posição`;
     } else {
       mensagem += ` Parabéns! Ele está em primeiro lugar 🏆.`;
     }
