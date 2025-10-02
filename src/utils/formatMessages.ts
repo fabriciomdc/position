@@ -27,9 +27,14 @@ export const formatFutureLegendsMessage = (
   streamer: string,
   position: number,
   score: number,
-  text?: string
+  pointsToNext?: number
 ) => {
-  const prefix = text || "Rank Future Legends S3";
-  return `${prefix} ${streamer}: está na posição 🏆${position} com 💥${score} pontos.`;
+  const prefix = "🚀 FUTURE LEGENDS S3";
+  const pointsNextText = pointsToNext !== undefined 
+    ? ` | ⚡${pointsToNext} pts para a próxima posição` 
+    : "";
+    
+  return `${prefix} | 👤 ${streamer} #${position} | 💥${score} pts${pointsNextText}`;
 };
+
 

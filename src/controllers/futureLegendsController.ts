@@ -4,23 +4,15 @@ import { formatFutureLegendsMessage } from "../utils/formatMessages";
 
 export const getStreamerPosition = async (req: Request, res: Response) => {
   const streamer = req.params.streamer;
-  const customText = req.query.text as string | undefined;
 
   try {
     const data = await fetchStreamerPosition(streamer);
-
     if (!data) return res.status(404).send("Streamer not found");
 
     const { position, score, nextScore } = data;
+    const faltando = nextScore !== null ? +(nextScore - score).toFixed(2) : undefined;
 
-    let mensagem = formatFutureLegendsMessage(streamer, position, score, customText);
-
-    if (nextScore !== null) {
-      const faltando = nextScore - score;
-      mensagem += ` Faltam ${faltando.toFixed(2)} pontos para alcançar a próxima posição.`;
-    } else {
-      mensagem += ` Parabéns! Ele está em primeiro lugar 🏆.`;
-    }
+    const mensagem = formatFutureLegendsMessage(streamer, position, score, faltando);
 
     res.send(mensagem);
   } catch (err) {
@@ -39,24 +31,16 @@ export const getStreamerTarget = async (req: Request, res: Response) => {
 
   try {
     const data = await fetchStreamerPosition(streamer);
-
     if (!data) return res.status(404).send("Streamer not found");
 
     const { position, score, rankList } = data;
     const target = rankList[meta - 1];
-
     if (!target) return res.status(404).send(`Não existe posição top ${meta}.`);
 
     const pontosMeta = target.a;
+    const faltando = score < pontosMeta ? +(pontosMeta - score).toFixed(2) : undefined;
 
-    let mensagem = `O streamer ${streamer} está na posição ${position} com ${score} pontos. `;
-
-    if (score < pontosMeta) {
-      const diff = pontosMeta - score;
-      mensagem += `Faltam ${diff.toFixed(2)} pontos para entrar no top ${meta}.`;
-    } else {
-      mensagem += `Já está no top ${meta}! 🎉`;
-    }
+    const mensagem = formatFutureLegendsMessage(streamer, position, score, faltando);
 
     res.send(mensagem);
   } catch (err) {
