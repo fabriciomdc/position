@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { fetchStreamerPosition } from "../services/futureLegendsService";
-import { formatFutureLegendsMessage } from "../utils/formatMessages";
+import { formatFutureLegendsMessage, formatFutureLegendsTopMessage } from "../utils/formatMessages";
 
 export const getStreamerPosition = async (req: Request, res: Response) => {
   const streamer = req.params.streamer;
@@ -10,14 +10,13 @@ export const getStreamerPosition = async (req: Request, res: Response) => {
     if (!data) return res.status(404).send("Streamer not found");
 
     const { position, score, nextScore } = data;
-    const faltando = nextScore !== null ? +(nextScore - score).toFixed(2) : undefined;
+    const pointsToNext = nextScore !== null ? +(nextScore - score).toFixed(2) : undefined;
 
-    const mensagem = formatFutureLegendsMessage(streamer, position, score, faltando);
-
-    res.send(mensagem);
+    const message = formatFutureLegendsMessage(streamer, position, score, pointsToNext);
+    res.send(message);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Erro ao buscar posição.");
+    res.status(500).send("Error fetching streamer position.");
   }
 };
 
@@ -26,7 +25,7 @@ export const getStreamerTarget = async (req: Request, res: Response) => {
   const meta = parseInt(req.params.meta, 10);
 
   if (isNaN(meta) || meta <= 0) {
-    return res.status(400).send("Meta inválida. Use um número positivo (ex: 50, 20, 10, 1).");
+    return res.status(400).send("Invalid target. Use a positive number (ex: 50, 20, 10, 1).");
   }
 
   try {
@@ -35,16 +34,21 @@ export const getStreamerTarget = async (req: Request, res: Response) => {
 
     const { position, score, rankList } = data;
     const target = rankList[meta - 1];
-    if (!target) return res.status(404).send(`Não existe posição top ${meta}.`);
+    if (!target) return res.status(404).send(`Top ${meta} does not exist.`);
 
-    const pontosMeta = target.a;
-    const faltando = score < pontosMeta ? +(pontosMeta - score).toFixed(2) : undefined;
+    const pointsTarget = score < target.a ? +(target.a - score).toFixed(2) : undefined;
 
-    const mensagem = formatFutureLegendsMessage(streamer, position, score, faltando);
+    const message = formatFutureLegendsTopMessage(
+      streamer,
+      position,
+      score,
+      meta,
+      pointsTarget
+    );
 
-    res.send(mensagem);
+    res.send(message);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Erro ao buscar posição.");
+    res.status(500).send("Error fetching target position.");
   }
 };

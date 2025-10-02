@@ -31,10 +31,25 @@ export const formatFutureLegendsMessage = (
 ) => {
   const prefix = "🚀 FUTURE LEGENDS S3";
   const pointsNextText = pointsToNext !== undefined 
-    ? ` | ⚡${pointsToNext} pts para a próxima posição` 
+    ? ` | faltam ⚡${pointsToNext} pts para a próxima posição` 
     : "";
     
-  return `${prefix} | 👤 ${streamer} #${position} | 💥${score} pts${pointsNextText}`;
+  return `${prefix} | 👤 ${streamer} 🏆${position} | 💥${score} pts${pointsNextText}`;
+};
+
+export const formatFutureLegendsTopMessage = (
+  streamer: string,
+  position: number,
+  score: number,
+  targetPosition: number,
+  pointsToTarget?: number
+) => {
+  const prefix = "🚀 FUTURE LEGENDS S3";
+  const pointsText = pointsToTarget !== undefined 
+    ? ` | faltam ⚡${pointsToTarget} pts para alcançar o Top ${targetPosition}` 
+    : "";
+
+  return `${prefix} | 👤 ${streamer} 🏆${position} | 💥${score} pts${pointsText}`;
 };
 
 
