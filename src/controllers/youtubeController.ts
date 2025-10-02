@@ -2,11 +2,12 @@ import { Request, Response } from "express";
 import { fetchLatestVideo } from "../services/youtubeService";
 import { formatVideoMessage, formatShortMessage } from "../utils/formatMessages";
 
-
 export const getLatestVideo = async (req: Request, res: Response) => {
   const customText = req.query.text as string | undefined;
+  const { channelId } = req.params; // pode estar undefined
+
   try {
-    const videoId = await fetchLatestVideo("medium");
+    const videoId = await fetchLatestVideo("medium", channelId);
     res.send(formatVideoMessage(videoId, customText));
   } catch (error) {
     console.error(error);
@@ -16,11 +17,13 @@ export const getLatestVideo = async (req: Request, res: Response) => {
 
 export const getLatestShort = async (req: Request, res: Response) => {
   const customText = req.query.text as string | undefined;
+  const { channelId } = req.params;
+
   try {
-    const videoId = await fetchLatestVideo("short");
+    const videoId = await fetchLatestVideo("short", channelId);
     res.send(formatShortMessage(videoId, customText));
   } catch (error) {
     console.error(error);
-    res.status(500).send("Failed to fetch latest Short");
+    res.status(500).send("Failed to fetch latest short");
   }
 };
