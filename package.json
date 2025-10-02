@@ -1,22 +1,30 @@
 {
   "name": "fabricio",
   "version": "1.0.0",
+  "description": "FutureLegends metrics service",
   "main": "dist/server.js",
+  "types": "dist/server.d.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "npx tsc",
+    "build": "tsc --project tsconfig.json",
     "start": "node dist/server.js",
     "postinstall": "chmod +x ./node_modules/.bin/tsc"
   },
   "dependencies": {
     "axios": "^1.12.2",
     "dotenv": "^17.2.2",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "node-cron": "^4.2.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.30",
+    "@types/node-cron": "^3.0.11",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
-  }
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
 }

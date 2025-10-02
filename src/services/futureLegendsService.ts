@@ -1,9 +1,10 @@
 import axios from "axios";
+import { FutureLegendsData } from "../types/futureLegends";
 
 const CHAMPIONSHIP_URL =
   "https://sg-apps.vasdgame.com/ide/?instanceid=4008550&sIdeFlow=fpUvOr";
 
-export const fetchStreamerPosition = async (streamer: string) => {
+export const fetchStreamerPosition = async (streamer: string): Promise<FutureLegendsData | null> => {
   const response = await axios.get(CHAMPIONSHIP_URL);
   const rankList = response.data.jData.rank || [];
 
