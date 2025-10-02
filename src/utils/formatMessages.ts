@@ -11,10 +11,15 @@ export const formatVideoMessage = (
 };
 
 
-export const formatShortMessage = (videoId: string, text?: string) => {
-  const prefix = text || "🟢Shorts novo🟢 Cola Conferir. Aquele likezada e comentário TMJ⭐⭐!! :";
+export const formatShortMessage = (
+  videoId: string,
+  title: string,
+  text?: string
+) => {
+  const prefix =
+    text || "🟢 Último short já tá no ar! 🟢";
   const link = `https://www.youtube.com/watch?v=${videoId}`;
-  return `${prefix} ${link}`;
+  return `${prefix}\n\n📌 ${title}:\n${link}`;
 };
 
 
