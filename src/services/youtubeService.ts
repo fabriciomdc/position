@@ -18,7 +18,7 @@ export const fetchLatestVideo = async (
   const cached = getCache<VideoData>(cacheKey);
   if (cached) return cached;
 
-  const url = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${channelId}&part=snippet&order=date&maxResults=5&type=video`;
+  const url = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${channelId}&part=snippet&order=date&maxResults=15&type=video`;
   const response = await axios.get(url);
   const items = response.data.items;
 
